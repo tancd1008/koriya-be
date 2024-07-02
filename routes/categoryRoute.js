@@ -1,9 +1,14 @@
 import express from 'express';
-import { addCategory, listCategory, removeCategory } from '../controllers/categoryController';
+import { addCategory, listCategory } from '../controllers/categoryController.js';
 const categoryRouter = express.Router();
 
-categoryRouter.get("/list", listCategory)
-categoryRouter.post("/add", addCategory)
-categoryRouter.post("/remove", removeCategory)
+//Image Storage Engine (Saving Image to uploads folder & rename it)
 
-export default userRouter;
+
+
+
+categoryRouter.get("/list", listCategory);
+categoryRouter.post("/add", addCategory);
+
+
+export default categoryRouter;
