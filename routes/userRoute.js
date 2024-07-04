@@ -6,8 +6,10 @@ import {
   registerUser,
 } from "../controllers/userController.js";
 const userRouter = express.Router();
+const userUrl = "/user/auth";
+const adminUrl = "/admin/auth";
 
-userRouter.post("/register", RegisterNewUser);
-userRouter.post("/login", Login);
+userRouter.post(`${userUrl}/register`, RegisterNewUser);
+userRouter.post(`${userUrl}/login`, Login);
 
 export default userRouter;

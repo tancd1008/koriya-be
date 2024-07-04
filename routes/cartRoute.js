@@ -7,9 +7,11 @@ import {
 import { checkAuthorization } from "../middleware/auth.js";
 
 const cartRouter = express.Router();
+const userUrl = "/user/cart";
+const adminUrl = "/admin/cart";
 
-cartRouter.post("/get", getCart);
-cartRouter.post("/add", checkAuthorization, addToCart);
-cartRouter.post("/remove", checkAuthorization, removeFromCart);
+cartRouter.post(`${userUrl}/get`, getCart);
+cartRouter.post(`${userUrl}/add`, checkAuthorization, addToCart);
+cartRouter.post(`${userUrl}/remove`, checkAuthorization, removeFromCart);
 
 export default cartRouter;

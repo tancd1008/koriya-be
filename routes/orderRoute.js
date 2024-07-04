@@ -10,12 +10,14 @@ import {
 import { checkAuthorization } from "../middleware/auth.js";
 
 const orderRouter = express.Router();
+const userUrl = "/user/order";
+const adminUrl = "/admin/order";
 
-orderRouter.get("/list", listOrders);
-orderRouter.post("/userorders", checkAuthorization, userOrders);
-orderRouter.post("/place", checkAuthorization, placeOrder);
-orderRouter.post("/status", updateStatus);
-orderRouter.post("/verify", verifyOrder);
-orderRouter.post("/placecod", checkAuthorization, placeOrderCod);
+orderRouter.get(`${userUrl}/list`, listOrders);
+orderRouter.post(`${userUrl}/userorders`, checkAuthorization, userOrders);
+orderRouter.post(`${userUrl}/place`, checkAuthorization, placeOrder);
+orderRouter.post(`${userUrl}/status`, updateStatus);
+orderRouter.post(`${userUrl}/verify`, verifyOrder);
+orderRouter.post(`${userUrl}/placecod`, checkAuthorization, placeOrderCod);
 
 export default orderRouter;
