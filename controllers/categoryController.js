@@ -1,33 +1,33 @@
-
 // all category list
 
-import categoryModel from "../models/categoryModel.js"
+import categoryModel from "../models/categoryModel.js";
+import { errorResponse, successResponse } from "../utils/response.js";
 
 const listCategory = async (req, res) => {
-    try {
-        const categories = await categoryModel.find({})
-        res.json({ success: false, data: categories })
-    } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "Error" })
-
-    }
-}
+  try {
+    const categories = await categoryModel.find({});
+    const response = successResponse(categories);
+    res.status(201).json(response);
+  } catch (error) {
+    const response = errorResponse(400, error.message, null);
+    res.status(201).json(response);
+  }
+};
 const addCategory = async (req, res) => {
+  try {
+    const category = new categoryModel({
+      name: req.body.name,
+      description: req.body.description,
+      status: true,
+    });
 
-    try {
-        const category = new categoryModel({
-            name: req.body.name,
-            description: req.body.description,
-            status: true
-        })
+    await category.save();
+    const response = successResponse(null);
+    res.status(201).json(response);
+  } catch (error) {
+    const response = errorResponse(400, error.message, null);
+    res.status(201).json(response);
+  }
+};
 
-        await category.save();
-        res.json({ success: true, message: "Category Added" })
-    } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "Error" })
-    }
-}
-
-export { listCategory, addCategory }
+export { addCategory, listCategory };
