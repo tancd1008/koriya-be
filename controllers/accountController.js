@@ -1,11 +1,9 @@
-
 import { _errors } from "../errors/error.js";
 import userModel from "../models/userModel.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 
-const RegisterNewUser = async (req, res) => {
-  const { name, email, phone, password, roles, restaurantId, address } =
-    req.body;
+const CreateNewAccount = async (req, res) => {
+  const { name, email, phone, password } = req.body;
 
   try {
     const existingUser = await userModel.findOne({
@@ -25,4 +23,5 @@ const RegisterNewUser = async (req, res) => {
     res.status(500).json(response);
   }
 };
-export { RegisterNewUser };
+
+export { CreateNewAccount };
