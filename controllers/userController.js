@@ -146,4 +146,4 @@ const RegisterUser = async (req, res) => {
   }
 };
 
-export { Login, LoginAdmin, loginUser, RegisterUser };
+export { Login, LoginAdmin, RegisterUser };
