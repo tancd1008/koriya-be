@@ -1,9 +1,10 @@
 import express from "express";
+import { CreateNewAccount } from "../controllers/accountController.js";
 import {
-  CreateNewAccount,
-  RegisterNewUser,
-} from "../controllers/accountController.js";
-import { Login, LoginAdmin } from "../controllers/userController.js";
+  Login,
+  LoginAdmin,
+  RegisterUser,
+} from "../controllers/userController.js";
 const userRouter = express.Router();
 const userUrl = "/user/auth";
 const adminUrl = "/admin/auth";
@@ -12,7 +13,7 @@ const adminUrl = "/admin/auth";
 userRouter.post(`${adminUrl}/create-new-account`, CreateNewAccount);
 userRouter.post(`${adminUrl}/login`, LoginAdmin);
 // USER
-userRouter.post(`${userUrl}/register`, RegisterNewUser);
+userRouter.post(`${userUrl}/register`, RegisterUser);
 userRouter.post(`${userUrl}/login`, Login);
 
 export default userRouter;

@@ -1,14 +1,12 @@
 import bcrypt from "bcrypt";
+import { createHmac } from "crypto";
 import jwt from "jsonwebtoken";
 import validator from "validator";
 import { _errors } from "../errors/error.js";
 import userModel from "../models/userModel.js";
-import { ROLE_ADMIN, ROLE_MANAGER } from "../secure/roles.js";
+import { ROLE_ADMIN, ROLE_MANAGER, ROLE_USER } from "../secure/roles.js";
+import { errorResponse, successResponse } from "../utils/response.js";
 
-//create token
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
-};
 const Login = async (req, res) => {
   const { username, password } = req.body;
 
@@ -108,29 +106,6 @@ const LoginAdmin = async (req, res) => {
     res.status(500).json(errorResponse(500, error.message, error.message));
   }
 };
-//login user
-const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await userModel.findOne({ email });
-
-    if (!user) {
-      return res.json({ success: false, message: "User does not exist" });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.json({ success: false, message: "Invalid credentials" });
-    }
-
-    const token = createToken(user._id);
-    res.json({ success: true, token });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
-  }
-};
 
 //register user
 const RegisterUser = async (req, res) => {
@@ -146,10 +121,10 @@ const RegisterUser = async (req, res) => {
       const response = errorResponse(400, _errors.E001_002, null);
       return res.status(400).json(response);
     }
-    const newUser = new userModel(req.body);
+    const newUser = new userModel({ ...req.body, roles: [ROLE_USER] });
     await newUser.save();
     jwt.sign(
-      { userId: user._id, roles: user.roles, phone: user.phone },
+      { userId: newUser._id, roles: newUser.roles, phone: newUser.phone },
       process.env.SECRETKEY,
       { expiresIn: "7d" },
       (err, token) => {
@@ -167,8 +142,7 @@ const RegisterUser = async (req, res) => {
       }
     );
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
+    res.status(500).json(errorResponse(500, error.message, error.message));
   }
 };
 

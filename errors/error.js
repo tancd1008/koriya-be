@@ -1,7 +1,7 @@
 export const _errors = {
   // account
   E001_001: "Tài khoản hoặc mật khẩu không chính xác",
-  E001_002: "Email đã tồn tại trong hệ thống",
+  E001_002: "Email hoặc SDT đã tồn tại trong hệ thống",
   //category
   E002_001: "Category đã tồn tại trong hệ thống",
   //food
